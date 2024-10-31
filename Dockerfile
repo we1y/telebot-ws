@@ -1,9 +1,18 @@
 FROM python:3.8
 
-RUN locale
+# Установка русской локализации
+RUN apt-get update && apt-get install -y locales && \
+    locale-gen ru_RU.UTF-8 && \
+    dpkg-reconfigure locales && \
+    update-locale LANG=ru_RU.UTF-8
+
+# Установка переменных окружения для локализации
+ENV LANG ru_RU.UTF-8
+ENV LANGUAGE ru_RU:ru
+ENV LC_ALL ru_RU.UTF-8
 
 # Установка системных зависимостей
-RUN apt-get update && apt-get install -y \
+RUN apt-get install -y \
     wget \
     unzip \
     xvfb \
@@ -24,7 +33,11 @@ RUN apt-get update && apt-get install -y \
     libxtst6 \
     libpango1.0-0 \
     libgbm1 \
+    fonts-liberation \
+    fonts-liberation2 \
     && rm -rf /var/lib/apt/lists/*
+
+RUN locale
 
 # Установка Chrome
 RUN wget https://storage.googleapis.com/chrome-for-testing-public/130.0.6723.91/linux64/chrome-linux64.zip \
