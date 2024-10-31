@@ -1,9 +1,10 @@
 FROM python:3.8
 
 # Установка русской локализации
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y locales && \
-    locale-gen ru_RU.UTF-8 && \
-    dpkg-reconfigure locales && \
+    sed -i -e 's/# ru_RU.UTF-8 UTF-8/ru_RU.UTF-8 UTF-8/' /etc/locale.gen && \
+    dpkg-reconfigure --frontend=noninteractive locales && \
     update-locale LANG=ru_RU.UTF-8
 
 # Установка переменных окружения для локализации
@@ -37,8 +38,6 @@ RUN apt-get install -y \
     fonts-liberation2 \
     && rm -rf /var/lib/apt/lists/*
 
-RUN locale
-
 # Установка Chrome
 RUN wget https://storage.googleapis.com/chrome-for-testing-public/130.0.6723.91/linux64/chrome-linux64.zip \
     && unzip chrome-linux64.zip \
@@ -66,4 +65,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Команда по умолчанию при запуске контейнера
-CMD ["python", "main.py"]
+CMD ["python", "your_script.py"]
