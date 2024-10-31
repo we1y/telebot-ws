@@ -56,9 +56,6 @@ RUN wget https://storage.googleapis.com/chrome-for-testing-public/130.0.6723.91/
     && chmod +x /usr/local/bin/chromedriver \
     && rm chromedriver-linux64.zip
 
-RUN -e DISPLAY=$DISPLAY \
-    -v /tmp/.X11-unix:/tmp/.X11-unix 
-
 # Создание рабочей директории
 WORKDIR /app
 
@@ -73,4 +70,3 @@ COPY . .
 
 # Команда по умолчанию при запуске контейнера
 CMD ["python", "main.py"]
-CMD ["sh", "-c", "Xvfb :1 -screen 0 1024x768x16 & x11vnc -display :1 -nopw -forever & fluxbox"]
