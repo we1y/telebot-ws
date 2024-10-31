@@ -45,6 +45,7 @@ RUN apt-get update && apt-get install -y \
     libgbm1 \
     fonts-liberation \
     fonts-liberation2 \
+    nginx \
     && rm -rf /var/lib/apt/lists/*
 
 # Установка Chrome
@@ -62,14 +63,12 @@ RUN wget https://storage.googleapis.com/chrome-for-testing-public/130.0.6723.91/
     && rm chromedriver-linux64.zip
 
 RUN mkdir -p /root/.vnc
-RUN x11vnc  -storepasswd password /root/.vnc/passwd
+RUN x11vnc -storepasswd password /root/.vnc/passwd
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Создание рабочей директории
 WORKDIR /app
-
-EXPOSE 5900 6080
 
 # Копирование файла requirements.txt
 COPY requirements.txt .
