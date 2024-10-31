@@ -13,7 +13,10 @@ ENV LANGUAGE ru_RU:ru
 ENV LC_ALL ru_RU.UTF-8
 
 # Установка системных зависимостей
-RUN apt-get install -y \
+RUN apt-get update && apt-get install -y \
+    xvfb \
+    x11vnc \
+    fluxbox \
     wget \
     unzip \
     xvfb \
@@ -66,3 +69,4 @@ COPY . .
 
 # Команда по умолчанию при запуске контейнера
 CMD ["python", "main.py"]
+CMD ["sh", "-c", "Xvfb :1 -screen 0 1024x768x16 & x11vnc -display :1 -nopw -forever & fluxbox"]
