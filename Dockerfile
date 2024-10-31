@@ -2,6 +2,8 @@ FROM python:3.8
 
 # Установка русской локализации
 ENV DEBIAN_FRONTEND=noninteractive
+ENV DISPLAY=:99
+
 RUN apt-get update && apt-get install -y locales && \
     sed -i -e 's/# ru_RU.UTF-8 UTF-8/ru_RU.UTF-8 UTF-8/' /etc/locale.gen && \
     dpkg-reconfigure --frontend=noninteractive locales && \
@@ -17,10 +19,13 @@ RUN apt-get update && apt-get install -y \
     xvfb \
     x11vnc \
     xorg \
+    curl \
+    gnupg \
+    supervisor \
+    novnc \
     fluxbox \
     wget \
     unzip \
-    xvfb \
     libxi6 \
     libgconf-2-4 \
     libnss3 \
@@ -56,8 +61,15 @@ RUN wget https://storage.googleapis.com/chrome-for-testing-public/130.0.6723.91/
     && chmod +x /usr/local/bin/chromedriver \
     && rm chromedriver-linux64.zip
 
+RUN mkdir -p /root/.vnc
+RUN x11vnc  -storepasswd password /root/.vnc/passwd
+
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
 # Создание рабочей директории
 WORKDIR /app
+
+EXPOSE 5900 6080
 
 # Копирование файла requirements.txt
 COPY requirements.txt .
@@ -69,4 +81,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Команда по умолчанию при запуске контейнера
-CMD ["python", "main.py"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
