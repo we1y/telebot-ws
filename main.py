@@ -363,7 +363,7 @@ def is_user_auth(driver):
         return False
 
 async def run_auth_selenium(update, context, user_id) -> None:
-    driver = setup_driver(user_id)
+    driver = setup_driver(user_id, headless=True)
 
     url = "https://web.whatsapp.com/"
     driver.get(url)
