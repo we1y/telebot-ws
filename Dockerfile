@@ -1,5 +1,7 @@
 FROM python:3.8
 
+RUN locale
+
 # Установка системных зависимостей
 RUN apt-get update && apt-get install -y \
     wget \
