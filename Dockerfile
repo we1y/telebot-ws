@@ -16,6 +16,7 @@ ENV LC_ALL ru_RU.UTF-8
 RUN apt-get update && apt-get install -y \
     xvfb \
     x11vnc \
+    xorg \
     fluxbox \
     wget \
     unzip \
@@ -54,6 +55,9 @@ RUN wget https://storage.googleapis.com/chrome-for-testing-public/130.0.6723.91/
     && mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver \
     && chmod +x /usr/local/bin/chromedriver \
     && rm chromedriver-linux64.zip
+
+RUN -e DISPLAY=$DISPLAY \
+    -v /tmp/.X11-unix:/tmp/.X11-unix 
 
 # Создание рабочей директории
 WORKDIR /app
