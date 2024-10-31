@@ -15,7 +15,9 @@ RUN apt-get update && apt-get install -y wget unzip xvfb libxi6 libgconf-2-4 \
     libxrandr2 \
     libxtst6 \
     libpango1.0-0 \
-    libgbm1
+    libgbm1 \
+    unzip \
+    curl
 
 RUN wget https://storage.googleapis.com/chrome-for-testing-public/130.0.6723.91/linux64/chrome-linux64.zip
     unzip chrome-linux64.zip
