@@ -319,17 +319,25 @@ async def auth(update: Update, context: CallbackContext) -> None:
     except KeyError:
         await update.message.reply_text('Перед тем как начать работу, запустите сессию')
 
-def setup_driver(user_id):
+def setup_driver(user_id, headless=True):
     profile_path = os.path.join(get_working_dir(), "users", str(user_id))
     if not os.path.exists(profile_path):
         os.makedirs(profile_path)
     options = webdriver.ChromeOptions()
     options.add_argument(f"user-data-dir={profile_path}")
 
-    options.add_argument('--headless')
+    if headless:
+        options.add_argument('--headless=new')
+    
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--disable-gpu')
+    options.add_argument('--window-size=1920,1080')
+    options.add_argument('--start-maximized')
+
+    options.add_argument('--disable-features=VizDisplayCompositor')
+    options.add_argument('--disable-software-rasterizer')
+    options.add_argument('--ignore-certificate-errors')
 
     options.add_argument('--lang=ru')
     options.add_argument('--accept-language=ru')
