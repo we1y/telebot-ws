@@ -13,6 +13,8 @@ ENV LC_ALL ru_RU.UTF-8
 
 RUN apt-get update && apt-get install -y \
     python3-pip \
+    chromium-browser \
+    chromium-chromedriver \
     xvfb \
     x11vnc \
     xorg \
@@ -43,18 +45,6 @@ RUN apt-get update && apt-get install -y \
     fonts-liberation \
     fonts-liberation2 \
     && rm -rf /var/lib/apt/lists/*
-
-RUN wget https://storage.googleapis.com/chrome-for-testing-public/130.0.6723.91/linux64/chrome-linux64.zip \
-    && unzip chrome-linux64.zip \
-    && mv chrome-linux64 /usr/local/bin/chrome \
-    && chmod +x /usr/local/bin/chrome/chrome \
-    && rm chrome-linux64.zip
-
-RUN wget https://storage.googleapis.com/chrome-for-testing-public/130.0.6723.91/linux64/chromedriver-linux64.zip \
-    && unzip chromedriver-linux64.zip \
-    && mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver \
-    && chmod +x /usr/local/bin/chromedriver \
-    && rm chromedriver-linux64.zip
 
 RUN git clone https://github.com/novnc/noVNC.git /opt/novnc \
     && git clone https://github.com/novnc/websockify /opt/novnc/utils/websockify
