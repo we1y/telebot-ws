@@ -42,7 +42,6 @@ RUN apt-get update && apt-get install -y \
     libgbm1 \
     fonts-liberation \
     fonts-liberation2 \
-    nginx \
     && rm -rf /var/lib/apt/lists/*
 
 RUN wget https://storage.googleapis.com/chrome-for-testing-public/130.0.6723.91/linux64/chrome-linux64.zip \
@@ -62,7 +61,7 @@ WORKDIR /app
 COPY requirements.txt .
 COPY main.py .
 COPY supervisord.conf .
-COPY confgi.json .
+COPY config.json .
 
 RUN pip3 install -r requirements.txt
 
