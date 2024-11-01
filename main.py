@@ -332,12 +332,20 @@ def setup_driver(user_id, headless=True):
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--disable-gpu')
-    options.add_argument('--window-size=1920,1080')
-    options.add_argument('--start-maximized')
+    options.add_argument('--disable-extensions')
+    options.add_argument('--disable-sync')
+    options.add_argument('--disable-default-apps')
+    options.add_argument('--mute-audio')
 
-    options.add_argument('--disable-features=VizDisplayCompositor')
-    options.add_argument('--disable-software-rasterizer')
-    options.add_argument('--ignore-certificate-errors')
+    options.add_argument('--js-flags="--max-old-space-size=256"')
+    options.add_argument('--memory-pressure-off')
+
+    options.add_argument('--window-size=800,600')
+    options.add_argument('--force-device-scale-factor=1')
+
+    options.add_argument('--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36')
+    options.add_argument('--disable-web-security')
+    options.add_argument('--allow-running-insecure-content')
 
     options.add_argument('--lang=ru')
     options.add_argument('--accept-language=ru')
@@ -345,6 +353,19 @@ def setup_driver(user_id, headless=True):
         'intl.accept_languages': 'ru, ru-RU',
         'profile.default_content_setting_values.notifications': 2
     })
+
+    prefs = {
+        'profile.default_content_setting_values.notifications': 2,
+        'profile.managed_default_content_settings.images': 1,
+        'profile.managed_default_content_settings.javascript': 1,
+        'profile.managed_default_content_settings.cookies': 1,
+        'profile.managed_default_content_settings.plugins': 1,
+        'profile.managed_default_content_settings.popups': 2,
+        'profile.managed_default_content_settings.geolocation': 2,
+        'profile.managed_default_content_settings.media_stream': 2,
+    }
+
+    options.add_experimental_option('prefs', prefs)
 
     options.binary_location = "/usr/local/bin/chrome/chrome"
 
