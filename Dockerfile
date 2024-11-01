@@ -56,6 +56,9 @@ RUN wget https://storage.googleapis.com/chrome-for-testing-public/130.0.6723.91/
     && chmod +x /usr/local/bin/chromedriver \
     && rm chromedriver-linux64.zip
 
+RUN git clone https://github.com/novnc/noVNC.git /opt/novnc \
+    && git clone https://github.com/novnc/websockify /opt/novnc/utils/websockify
+
 WORKDIR /app
 
 COPY requirements.txt .
